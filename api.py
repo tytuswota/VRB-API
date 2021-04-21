@@ -13,8 +13,8 @@ post_args.add_argument("paramB", type=str, help="ParamB was not given...")
 post_args.add_argument("paramC", type=str, help="ParamC was not given...")
 
 class Message(Resource):
-    def get(self, id):
-        return ''
+    def get(self):
+        return 'The api is wip'
     
     def post(self):
         args = post_args.parse_args()
