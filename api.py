@@ -1,8 +1,10 @@
 from flask import Flask
 from flask_restful import reqparse, abort, Api, Resource
+from ValidFromatRule import ValidFormatRule
 from ValidMotorParametersRule import ValidMotorParametersRule
 from ValidTimerParametersRule import ValidTimerParametersRule
-from ValidFromRule import ValidFormRule
+from ValidVoltageParametersRule import ValidVoltageParametersRule
+from ValidMessageParametersRule import ValidMessageParametersRule
 from Client import Client
 
 app = Flask(__name__)
@@ -31,7 +33,8 @@ class Request(Resource):
         parameters = ValidFormRule.valid(message=messageArray)
 
         if parameters is not False:
-            if ValidMotorParametersRule.valid(parameters=parameters) or ValidTimerParametersRule.valid(parameters=parameters):
+            #TODO change this big if statement in a switch statement or something better
+            if ValidMotorParametersRule.valid(parameters=parameters) or ValidTimerParametersRule.valid(parameters=parameters) or ValidVoltageParametersRule.valid(parameters=parameters) or ValidMessageParametersRule.valid(parameters=parameters):
                 Client.sendRequest(message=messageArray)
                 return {'message': args['message']}, 201
             return 400

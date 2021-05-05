@@ -1,6 +1,6 @@
 from MethodTypes import MethodTypes
 
-class ValidFormRule():
+class ValidFormatRule():
     def validateHeader(self, methodType):
         if methodType in MethodTypes:
             return True
