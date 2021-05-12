@@ -14,13 +14,16 @@ class ValidMessageParametersRule():
         return False
 
     def validateDateFormat(self, parameters):
+        
         date_time_string = parameters[2]
-        dateTimeFormat = "%d-%m-%Y %H:%M:%M"
-        try:
-            datetime.datetime.strptime(date_time_string, dateTimeFormat)
-            return True
-        except ValueError:
-            return False
+        if(isinstance(date_time_string, str)):
+            dateTimeFormat = "%d-%m-%Y %H:%M:%M"
+            try:
+                datetime.datetime.strptime(date_time_string, dateTimeFormat)
+                return True
+            except ValueError:
+                return False
+        return False
 
     def valid(self, parameters):
         if self.validateMeasurementType(parameters=parameters) and self.validateDateFormat(parameters=parameters):

@@ -1,5 +1,6 @@
 class ValidVoltageParametersRule():
     def __init__(self):
+        self.NUMBER_OF_PARAMETERS = 2
         self.VALID_VOLTAGE_ACTIONS = [1,2]
         self.VALID_VOLTAGE_LIMITS = []
     
@@ -9,7 +10,7 @@ class ValidVoltageParametersRule():
         return False
 
     def valid(self, parameters):
-        if self.validateVoltageActions(parameters=parameters):
+        if len(parameters) is self.NUMBER_OF_PARAMETERS and self.validateVoltageActions(parameters=parameters):
             return True
         return False
         

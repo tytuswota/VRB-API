@@ -1,6 +1,6 @@
-import enum
+from enum import Enum
 
-class MethodTypes():
+class MethodTypes(Enum):
     MotorControl = 1
     TimerControl = 2
     VoltageControl = 3

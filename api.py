@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_restful import reqparse, abort, Api, Resource
 from ValidFromatRule import ValidFormatRule
 from ValidMotorParametersRule import ValidMotorParametersRule
@@ -26,17 +26,21 @@ parser.add_argument('message')
 #json = message: [int:header, int:params..]
 class Request(Resource):
     def post(self):
-        args = parser.parse_args()
-        data = json.loads(args['message'])
+        data = request.get_json(force=True)
+
         messageArray = data['message']
-
-        parameters = ValidFormRule.valid(message=messageArray)
-
+        V = ValidFormatRule()
+        VPV = ValidVoltageParametersRule()
+        VPTR = ValidTimerParametersRule()
+        VPMM = ValidMessageParametersRule()
+        VPM = ValidMotorParametersRule()
+        parameters = V.valid(messageArray)
+        print(parameters)
         if parameters is not False:
             #TODO change this big if statement in a switch statement or something better
-            if ValidMotorParametersRule.valid(parameters=parameters) or ValidTimerParametersRule.valid(parameters=parameters) or ValidVoltageParametersRule.valid(parameters=parameters) or ValidMessageParametersRule.valid(parameters=parameters):
-                Client.sendRequest(message=messageArray)
-                return {'message': args['message']}, 201
+            if VPV.valid(parameters=parameters) or VPTR.valid(parameters=parameters) or VPMM.valid(parameters=parameters):
+                #Client.sendRequest(message=messageArray)
+                return {'message': data['message']}, 201
             return 400
         return 400
 

@@ -1,8 +1,12 @@
 from MethodTypes import MethodTypes
 
 class ValidFormatRule():
+    def __init__(self):
+        self.data = []
+
     def validateHeader(self, methodType):
-        if methodType in MethodTypes:
+        values = [item.value for item in MethodTypes]
+        if methodType in values:
             return True
         return False
 

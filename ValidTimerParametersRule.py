@@ -2,7 +2,7 @@ class ValidTimerParametersRule():
     def __init__(self):
         self.NUMBER_OF_PARAMETERS = 2
         self.VALID_TIMER_IDS = [1,2,3]
-        self.VALID_TIMER,ACTIONS = [1,2,3]
+        self.VALID_TIMER_ACTIONS = [1,2,3]
     
     def validateTimerIDS(self, parameters):
         if parameters[0] in self.VALID_TIMER_IDS:
