@@ -8,6 +8,8 @@ class Client():
 
     def sendRequest(self, message):
         if message[0] is self.DATABASE_CLIENT_METHOD_TYPE_ID:
+            cldb = ClientDataBase()
             ClientDataBase.storeData(data=message)
         else:
-            ClientDevice.sendRequest(message=message)
+            cld = ClientDevice()
+            cld.sendRequest(message=message)

@@ -34,12 +34,13 @@ class Request(Resource):
         VPTR = ValidTimerParametersRule()
         VPMM = ValidMessageParametersRule()
         VPM = ValidMotorParametersRule()
+        client = Client()
         parameters = V.valid(messageArray)
         print(parameters)
         if parameters is not False:
             #TODO change this big if statement in a switch statement or something better
             if VPM.valid(parameters=parameters) or VPV.valid(parameters=parameters) or VPTR.valid(parameters=parameters) or VPMM.valid(parameters=parameters):
-                #Client.sendRequest(message=messageArray)
+                client.sendRequest(message=messageArray)
                 return {'message': data['message']}, 201
             return 400
         return 400
