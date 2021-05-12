@@ -38,7 +38,7 @@ class Request(Resource):
         print(parameters)
         if parameters is not False:
             #TODO change this big if statement in a switch statement or something better
-            if VPV.valid(parameters=parameters) or VPTR.valid(parameters=parameters) or VPMM.valid(parameters=parameters):
+            if VPM.valid(parameters=parameters) or VPV.valid(parameters=parameters) or VPTR.valid(parameters=parameters) or VPMM.valid(parameters=parameters):
                 #Client.sendRequest(message=messageArray)
                 return {'message': data['message']}, 201
             return 400

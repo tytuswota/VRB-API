@@ -21,6 +21,7 @@ class ValidMotorParametersRule():
         return False
     
     def valid(self, parameters):
+        print(parameters)
         if len(parameters) is self.NUMBER_OF_PARAMETERS and self.validateMotorIDS(parameters=parameters) and self.validateMotorActions(parameters=parameters) and self.validFractionalPower(parameters=parameters):
             return True
         return False
