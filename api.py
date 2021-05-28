@@ -6,8 +6,10 @@ from ValidTimerParametersRule import ValidTimerParametersRule
 from ValidVoltageParametersRule import ValidVoltageParametersRule
 from ValidMessageParametersRule import ValidMessageParametersRule
 from Client import Client
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 api = Api(app)
 
 #========================================================
@@ -15,7 +17,6 @@ api = Api(app)
 #========================================================
 parser = reqparse.RequestParser()
 parser.add_argument('message')
-
 #class JsonDecode:
     #this class isn't needed the json decoding and validating is already done by the RequestParser
 #    def validateJsonFormat()
@@ -48,4 +49,4 @@ class Request(Resource):
 api.add_resource(Request, '/api')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',debug=True)
+    app.run(host='localhost', port=5000 ,debug=True)
