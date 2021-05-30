@@ -54,9 +54,5 @@ class Request(Resource):
 api.add_resource(Request, '/')
 
 if __name__ == '__main__':
-<<<<<<< HEAD
     app.run(host='0.0.0.0', debug=True)
 
-=======
-    app.run(host='localhost', port=5000 ,debug=True)
->>>>>>> 03e76e4814d8ca0b079b83320cb0227da76cddc3
