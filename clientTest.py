@@ -1,6 +1,7 @@
 from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
 import tkinter
+import time
 
 def receive():
     """Handles receiving of messages."""
@@ -25,11 +26,12 @@ def send(event=None):  # event is passed by binders.
 
 def on_closing(event=None):
     """This function is to be called when the window is closed."""
-    my_msg.set("{quit}")
-    send()
+    client_socket.send(bytes(str("{quit}"), "utf8"))
+    time.sleep(0.1)
+    client_socket.close()
 
 top = tkinter.Tk()
-top.title("Chatter")
+top.title("Socket Debugger™")
 
 messages_frame = tkinter.Frame(top)
 my_msg = tkinter.StringVar()  # For the messages to be sent.
