@@ -51,8 +51,8 @@ class Request(Resource):
             return 400
         return 400
 
-api.add_resource(Request, '/')
+api.add_resource(Request, '/api')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='localhost', debug=True)
 

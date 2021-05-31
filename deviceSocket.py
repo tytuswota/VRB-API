@@ -53,10 +53,9 @@
 #         thread = threading.Thread(target=handle_client, args=(conn, addr))
 #         thread.start()
 #         print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 1}")
-
-import socket
-import threading
-import requests
+from socket import AF_INET, socket, SOCK_STREAM
+from sys import prefix
+from threading import Thread
 
 #import requests
 
@@ -75,63 +74,62 @@ import requests
 #the float can varry
 #==========================
 
-HEADER = 140
-PORT = 5050
-SERVER = "127.0.0.1"
-ADDR = (SERVER, PORT)
-FORMAT = 'utf-8'
-DISCONNECT_MESSAGE = "!/$0"
-connected = False
+#starts a client connection
 
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind(ADDR)
 
-def handle_client(conn, addr):
-    global connected
-    print(f"[NEW CONNECTION] {addr} connected.")
-    while connected:
-        msg_length = conn.recv(HEADER).decode(FORMAT)
-        if msg_length:
-            msg_length = len(msg_length)
-            msg = conn.recv(msg_length).decode(FORMAT)
-            send_client(conn, addr, ("Msg Recieved"))
-            if msg == DISCONNECT_MESSAGE:
-                connected = False    
-            else:
-                print(f"[{addr}] {msg}") 
-                messageArray = [float(x) for x in list(msg.split(","))]           
-                requests.post('http://localhost:5000/api', json={"message": messageArray})
-            #conn.send("Msg received".encode(FORMAT))
-           
-    #     send_client(conn,addr,"[2,2,3,4]")
-    #     send_client(conn,addr,"[4,4,3,4]")
-    # send_client(conn,addr,"[3,3,3,4]")     
-    # print(connected)
-    conn.close()
 
-def send_client(conn, addr, msg):
-    message = msg.encode(FORMAT)
-    msg_length = len(message)
-    send_length = str(msg_length).encode(FORMAT)
-    send_length += b' ' * (HEADER - len(send_length))
-    conn.send(send_length)
-    conn.send(message)
-    print(f"gestuurd")
-    
-def start():
-    global connected
-    server.listen()
-    print(f"[LISTENING] Server is listening on {SERVER}")
+def accept_incoming_connections():
     while True:
-        conn, addr = server.accept()
-        thread = threading.Thread(target=handle_client, args=(conn, addr))
-        thread.start()
-        connected = True
-        print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 1}")
+        client, client_address = SERVER.accept()
+        print("%s:%s has connected." % client_address)
+        client.send(bytes("you have been connected", "utf8"))
+        #Saves all the client addresses to a list, and sends everything back  
+        addresses[client] = client_address
+        global clientID
+        Thread(target=handle_client, args=(client,)).start()
 
-print("[STARTING] server is starting...")    
-start()
+def handle_client(client):
+    name = client.recv(BUFSIZE).decode("utf8")
+    clients[client] = name 
+    while True:
+        print("=========A==========")
+        msg = client.recv(BUFSIZE)
+        print("=========B==========")
+        if msg != bytes("{quit}", "utf8"):
+            prefix = name + ": "
+            broadcast(msg, prefix)
+        else:
+            client.send(bytes("{quit}", "utf8"))
+            client.close()
+            del clients[client]
+            break
 
-# send_client("[1,1,1,1]")
+def broadcast(msg, prefix=""):
+    for sock in clients:
+        sock.send(bytes(prefix, "utf8")+msg)
+
+
+
+
+addresses = {}
+clients = {}
+
+
+HOST = 'localhost'
+PORT = 5050
+BUFSIZE = 1024
+ADDR = (HOST, PORT)
+
+SERVER = socket(AF_INET, SOCK_STREAM)
+SERVER.bind(ADDR)
+
+if __name__ == "__main__":
+    SERVER.listen(5)
+    print("Waiting for connection...")
+    ACCEPT_THREAD = Thread(target=accept_incoming_connections)
+    ACCEPT_THREAD.start()
+    ACCEPT_THREAD.join()
+    SERVER.close()
+
 
 
