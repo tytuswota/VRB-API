@@ -18,6 +18,3 @@ class ValidTimerParametersRule():
         if len(parameters) is self.NUMBER_OF_PARAMETERS and self.validateTimerIDS(parameters=parameters) and self.validateTimerActions(parameters=parameters):
             return True
         return False
-    
-
-        

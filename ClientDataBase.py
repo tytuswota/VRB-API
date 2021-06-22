@@ -1,4 +1,3 @@
-
 class ClientDataBase():
     def __init__(self):
         self.data = []
@@ -20,4 +19,3 @@ class ClientDataBase():
         cur.close()
 
         print('here the data will be stored....')
-        return 200

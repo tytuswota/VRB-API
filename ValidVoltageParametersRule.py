@@ -11,4 +11,3 @@ class ValidVoltageParametersRule():
 
     def valid(self, parameters):
         return True
-        

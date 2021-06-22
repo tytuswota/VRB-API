@@ -77,4 +77,3 @@ api.add_resource(Status, '/update_status')
 
 if __name__ == '__main__':
     app.run(host='95.217.181.53', port='2000', debug=True)
-

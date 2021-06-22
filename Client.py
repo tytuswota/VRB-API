@@ -13,4 +13,3 @@ class Client():
             cldb.storeData(data=message, mysql=msql)
         else:
             cld = ClientDevice()
-            cld.sendRequest(message=message)

@@ -26,7 +26,6 @@ class ValidMessageParametersRule():
         return False
 
     def valid(self, parameters):
-        print("aaaaaa")
         if self.validateMeasurementType(parameters=parameters):
             return True
         return False            

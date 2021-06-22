@@ -16,4 +16,3 @@ class ValidFormatRule():
         if self.validateHeader(methodType=methodId):
             return message
         return False
-
